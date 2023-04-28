@@ -6,6 +6,7 @@ fetch(rssapi)
     const parser = new DOMParser();
     const xml = parser.parseFromString(xmlStr, "text/xml");
     const items = xml.querySelectorAll("item");
+    console.log(xml);
     items.forEach(item => {
       const title = item.querySelector("title").textContent;
       const description = item.querySelector("description").textContent;
@@ -13,6 +14,7 @@ fetch(rssapi)
       const pubDate = new Date(item.querySelector("pubDate").textContent);
       news.push({ title, description, link, pubDate });
     });
+    news.sort((a, b) => a.title.localeCompare(b.title));
     displayNews(news);
   })
   .catch(error => console.error(error));
@@ -36,7 +38,6 @@ function displayNews(news) {
     });
   });
 }
-
 const searchForm = document.getElementById("search-form");
 searchForm.addEventListener("submit", event => {
   event.preventDefault();
